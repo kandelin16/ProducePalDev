@@ -1,0 +1,206 @@
+{
+  "invocation": "my test app",
+  "intents": [
+    {
+      "name": "HelloWorldIntent",
+      "phrases": ["hello", "say hello", "say hello world"]
+    },
+    {
+      "name": "MyNameIsIntent",
+      "phrases": ["{name}", "my name is {name}", "i am {name}", "you can call me {name}"],
+      "inputs": [
+        {
+          "name": "name",
+          "type": {
+            "alexa": "AMAZON.US_FIRST_NAME",
+            "dialogflow": "@sys.given-name"
+          }
+        }
+      ]
+    },
+    {
+      "name": "AddFoodIntent",
+      "phrases": ["add {food} to my fridge", "add {food}", "put {food} away"],
+      "inputs": [
+        {
+          "name": "food",
+          "type": {
+            "alexa": "AMAZON.Food"
+          }
+        }
+      ]
+    },
+    {
+      "name": "SaveFoodIntent",
+      "phrases": ["add {food} to my fridge", "add {food}", "put {food} away"],
+      "inputs": [
+        {
+          "name": "food",
+          "type": {
+            "alexa": "AMAZON.Food"
+          }
+        }
+      ]
+    }
+  ],
+  "alexa": {
+    "interactionModel": {
+"languageModel": {
+          "invocationName": "smart leftovers",
+          "intents": [
+              {
+                  "name": "AMAZON.CancelIntent",
+                  "samples": []
+              },
+              {
+                  "name": "AMAZON.HelpIntent",
+                  "samples": []
+              },
+              {
+                  "name": "AMAZON.StopIntent",
+                  "samples": []
+              },
+              {
+                  "name": "HelloWorldIntent",
+                  "slots": [],
+                  "samples": [
+                      "hello",
+                      "how are you",
+                      "say hi world",
+                      "say hi",
+                      "hi",
+                      "say hello world",
+                      "say hello"
+                  ]
+              },
+              {
+                  "name": "AMAZON.NavigateHomeIntent",
+                  "samples": []
+              },
+              {
+                  "name": "AMAZON.FallbackIntent",
+                  "samples": []
+              },
+              {
+                  "name": "addTo",
+                  "slots": [
+                      {
+                          "name": "food",
+                          "type": "AMAZON.Food"
+                      },
+                      {
+                          "name": "location",
+                          "type": "foodLocations"
+                      }
+                  ],
+                  "samples": [
+                      "put {food} in {location}",
+                      "add {food} to {location}"
+                  ]
+              },
+              {
+                  "name": "removeFrom",
+                  "slots": [
+                      {
+                          "name": "food",
+                          "type": "AMAZON.Food"
+                      },
+                      {
+                          "name": "location",
+                          "type": "foodLocations"
+                      }
+                  ],
+                  "samples": [
+                      "take {food} out of {location}",
+                      "remove {food} from {location}"
+                  ]
+              },
+              {
+                  "name": "whatToEat",
+                  "slots": [
+                      {
+                          "name": "location",
+                          "type": "foodLocations"
+                      }
+                  ],
+                  "samples": [
+                      "tell me the food I have",
+                      "what food do i have in {location}",
+                      "what can I eat tonight",
+                      "what's in the {location}",
+                      "what food is still good",
+                      "what can I eat today",
+                      "what's in my {location}"
+                  ]
+              },
+              {
+                  "name": "save",
+                  "slots": [
+                      {
+                          "name": "days",
+                          "type": "AMAZON.NUMBER"
+                      }
+                  ],
+                  "samples": [
+                      "{days} days"
+                  ]
+              }
+          ],
+          "types": [
+              {
+                  "name": "foodLocations",
+                  "values": [
+                      {
+                          "name": {
+                              "value": "pantry",
+                              "synonyms": [
+                                  "cupboard"
+                              ]
+                          }
+                      },
+                      {
+                          "name": {
+                              "value": "freezer"
+                          }
+                      },
+                      {
+                          "name": {
+                              "value": "fridge",
+                              "synonyms": [
+                                  "refrigerator"
+                              ]
+                          }
+                      }
+                  ]
+              }
+          ]
+      }
+    }
+  },
+  "dialogflow": {
+    "intents": [
+      {
+        "name": "Default Fallback Intent",
+        "auto": true,
+        "webhookUsed": true,
+        "fallbackIntent": true
+      },
+      {
+        "name": "Default Welcome Intent",
+        "auto": true,
+        "webhookUsed": true,
+        "events": [
+          {
+            "name": "WELCOME"
+          }
+        ]
+      }
+    ]
+  }
+}
+
+{
+  "interactionModel": {
+      
+  }
+}
