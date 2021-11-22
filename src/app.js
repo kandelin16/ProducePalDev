@@ -26,6 +26,7 @@ app.use(
 
 app.setHandler({
   LAUNCH() {
+    this.setUserFoodDict()
     this.ask("Welcom to Produce Pal! Try adding something to your fridge!")
   },
 
@@ -37,15 +38,18 @@ app.setHandler({
     this.tell('Hey ' + this.$inputs.name.value + ', nice to meet you!');
   },
 
-  AddToIntent() {
+  AddFoodIntent() {
     this.$session.$data.tempFood = this.$inputs.food.value
     this.ask("Ok, how long will your " + this.$inputs.food.value + " last?")
   },
 
   SaveFoodIntent() {
-    var tempFood = this.$session.$data.tempFood
-    this.$user.$data.food = this.$inputs.days.value
-    this.tell("Awesome! I saved your " + this.$session.$data.tempFood)
+    this.$user.$data.food[this.$session.$data.tempFood] = this.$inputs.number.value
+    this.ask("Awesome! I saved your " + this.$session.$data.tempFood)
+  },
+
+  setUserFoodDict() {
+    this.$user.$data.food = {}
   }
 });
 
