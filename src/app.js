@@ -49,7 +49,9 @@ app.setHandler({
   },
 
   setUserFoodDict() {
-    this.$user.$data.food = {}
+    if (this.$user.$data.food == null) {
+      this.$user.$data.food = {}
+    }
   }
 });
 
