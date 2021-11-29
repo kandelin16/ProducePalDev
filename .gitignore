@@ -3,4 +3,3 @@ db/
 bundle/
 bundle.zip
 .env
-package-lock.json
