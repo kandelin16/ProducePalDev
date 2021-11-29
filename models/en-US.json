@@ -15,10 +15,10 @@
     },
     {
       "name": "SaveFoodIntent",
-      "phrases": ["{number} days", "it will be good for {number} days"],
+      "phrases": ["{days} days", "it will be good for {days} days"],
       "inputs": [
         {
-          "name": "number",
+          "name": "days",
           "type": {
             "alexa": "AMAZON.NUMBER"
           }
@@ -27,10 +27,10 @@
     },
     {
       "name": "ServingCountIntent",
-      "phrases": ["{number} servings"],
+      "phrases": ["{servings} servings"],
       "inputs": [
         {
-          "name": "number",
+          "name": "servings",
           "type": {
             "alexa": "AMAZON.NUMBER"
           }
@@ -40,6 +40,30 @@
     {
       "name": "ListFoodIntent",
       "phrases": ["What is in my fridge?", "What food do I have?"]
+    },
+    {
+      "name": "QuickAddIntent",
+      "phrases": ["add {servings} servings of {food} good for {days} days"],
+      "inputs": [
+        {
+          "name": "servings",
+          "type": {
+            "alexa": "AMAZON.NUMBER"
+          }
+        },
+        {
+          "name": "food",
+          "type": {
+            "alexa": "AMAZON.Food"
+          }
+        },
+        {
+          "name": "days",
+          "type": {
+            "alexa": "AMAZON.NUMBER"
+          }
+        }
+      ]
     }
   ]
 }

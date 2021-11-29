@@ -37,14 +37,13 @@ app.setHandler({
   },
 
   SaveFoodIntent() {
-    var expirationDate = this.addDays(Date.now(), parseInt(this.$inputs.number.value))
-    
+    var expirationDate = this.addDays(Date.now(), parseInt(this.$inputs.days.value))
     this.$user.$data.food[this.$session.$data.tempFood]["ExpirationDate"] = expirationDate
     this.ask("Awesome! How many servings of " + this.$session.$data.tempFood + " are there?")
   },
 
   ServingCountIntent() {
-    this.$user.$data.food[this.$session.$data.tempFood]["ServingCount"] = this.$inputs.number.value
+    this.$user.$data.food[this.$session.$data.tempFood]["ServingCount"] = this.$inputs.servings.value
     this.ask("All set. Feel free to save other food.")
   },
 
@@ -63,6 +62,18 @@ app.setHandler({
       index ++
     }
     this.ask("In your fridge you have: " + foodNames)
+  },
+
+  QuickAddIntent() {
+    var food = this.$inputs.food.value
+    var servings = this.$inputs.servings.value
+    var days = this.$inputs.days.value
+    var expirationDate = this.addDays(Date.now(), parseInt(days))
+    
+    this.$user.$data.food[food] = {}
+    this.$user.$data.food[food]["ExpirationDate"] = expirationDate
+    this.$user.$data.food[food]["ServingCount"] = servings
+    this.ask("Added. Other food?")
   },
 
   setUserFoodDict() {
