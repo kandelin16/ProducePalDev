@@ -49,10 +49,20 @@ app.setHandler({
   },
 
   ListFoodIntent() {
-    var foodItems = this.$user.$data.$food
-    foodItems.forEach(element => {
-      console.log(element)
-    });
+    var foodItems = this.$user.$data.food
+    var foodNames = ""
+    var lengthOfDict = Object.keys(foodItems).length
+    var index = 1
+    for (const [food, detailsDict] of Object.entries(foodItems)) {
+      if (index == lengthOfDict) {
+        foodNames = foodNames + " and " + food + "."
+      }
+      else {
+        foodNames = foodNames + food + ", "
+      }
+      index ++
+    }
+    this.ask("In your fridge you have: " + foodNames)
   },
 
   setUserFoodDict() {
