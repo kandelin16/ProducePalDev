@@ -36,6 +36,10 @@
           }
         }
       ]
+    },
+    {
+      "name": "ListFoodIntent",
+      "phrases": ["What is in my fridge?", "What food do I have?"]
     }
   ]
 }

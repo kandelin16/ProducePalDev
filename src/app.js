@@ -32,18 +32,27 @@ app.setHandler({
 
   AddFoodIntent() {
     this.$session.$data.tempFood = this.$inputs.food.value
+    this.$user.$data.food[this.$session.$data.tempFood] = {}
     this.ask("Ok, how long will your " + this.$inputs.food.value + " last?")
   },
 
   SaveFoodIntent() {
-    var expirationDate = this.addDays(Date.now(), parseInt($this.$inputs.number.value))
+    var expirationDate = this.addDays(Date.now(), parseInt(this.$inputs.number.value))
+    
     this.$user.$data.food[this.$session.$data.tempFood]["ExpirationDate"] = expirationDate
     this.ask("Awesome! How many servings of " + this.$session.$data.tempFood + " are there?")
   },
 
   ServingCountIntent() {
-    this.$user.$data.food[this.$session.$data.tempFood]["ServingCount"] = this.$data.$inputs.number.value
+    this.$user.$data.food[this.$session.$data.tempFood]["ServingCount"] = this.$inputs.number.value
     this.ask("All set. Feel free to save other food.")
+  },
+
+  ListFoodIntent() {
+    var foodItems = this.$user.$data.$food
+    foodItems.forEach(element => {
+      console.log(element)
+    });
   },
 
   setUserFoodDict() {
