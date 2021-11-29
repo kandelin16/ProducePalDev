@@ -26,7 +26,7 @@ app.use(
 
 app.setHandler({
   LAUNCH() {
-    this.setUserFoodDict()
+    this.setUserDict()
     this.ask("Welcome to Produce Pal! Try adding something to your fridge!")
   },
 
@@ -36,7 +36,7 @@ app.setHandler({
     this.ask("Ok, how long will your " + this.$inputs.food.value + " last?")
   },
 
-  SaveFoodIntent() {
+  DurationIntent() {
     var expirationDate = this.addDays(Date.now(), parseInt(this.$inputs.days.value))
     this.$user.$data.food[this.$session.$data.tempFood]["ExpirationDate"] = expirationDate
     this.ask("Awesome! How many servings of " + this.$session.$data.tempFood + " are there?")
@@ -76,9 +76,35 @@ app.setHandler({
     this.ask("Added. Other food?")
   },
 
-  setUserFoodDict() {
+  RemoveFoodIntent() {
+    this.$session.$data.tempFood = this.$inputs.food.value
+    this.ask("Was the " + this.$inputs.food.value + " eaten or thrown away?")
+  },
+
+  //FIX ME: Needs modeling
+  RemoveFoodMethodIntent() {
+    var food = this.$session.date.tempFood
+
+    //FIX ME: Maybe sanitize the method input for standard values? Or will the voice model do this?
+    var method = this.$inputs.method.value
+    var servings = this.$user.$data.Food[this.$session.$data.tempFood]["ServingCount"]
+    CreateDisposalLog(food, method, servings)
+    delete this.$user.$data.Food[this.$session.$data.tempFood]
+  },
+
+  CreateDisposalLog(food, method, servings) {
+    this.$user.$data.DisposalLog[Date.now()] = {}
+    this.$user.$data.DisposalLog[Date.now()]["Food"] = food
+    this.$user.$data.DisposalLog[Date.now()]["DisposalMethod"] = method
+    this.$user.$data.DisposalLog[Date.now()]["ServingCount"] = servings
+  },
+
+  setUserDict() {
     if (this.$user.$data.food == null) {
       this.$user.$data.food = {}
+    }
+    if (this.$user.$data.DisposalLog == null) {
+      this.$user.$data.DisposalLog = {}
     }
   },
 

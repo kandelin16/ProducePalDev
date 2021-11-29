@@ -14,7 +14,7 @@
       ]
     },
     {
-      "name": "SaveFoodIntent",
+      "name": "DurationIntent",
       "phrases": ["{days} days", "it will be good for {days} days"],
       "inputs": [
         {
@@ -64,6 +64,18 @@
           }
         }
       ]
-    }
+    },
+    {
+      "name": "RemoveFoodIntent",
+      "phrases": ["remove {food} from my fridge"],
+      "inputs": [
+        {
+          "name": "food",
+          "type": {
+            "alexa": "AMAZON.Food"
+          }
+        }
+      ]
+    }    
   ]
 }
