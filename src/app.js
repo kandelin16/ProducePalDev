@@ -27,15 +27,7 @@ app.use(
 app.setHandler({
   LAUNCH() {
     this.setUserFoodDict()
-    this.ask("Welcom to Produce Pal! Try adding something to your fridge!")
-  },
-
-  HelloWorldIntent() {
-    this.ask("Hello World! What's your name?", 'Please tell me your name.');
-  },
-
-  MyNameIsIntent() {
-    this.tell('Hey ' + this.$inputs.name.value + ', nice to meet you!');
+    this.ask("Welcome to Produce Pal! Try adding something to your fridge!")
   },
 
   AddFoodIntent() {
@@ -44,14 +36,26 @@ app.setHandler({
   },
 
   SaveFoodIntent() {
-    this.$user.$data.food[this.$session.$data.tempFood] = this.$inputs.number.value
-    this.ask("Awesome! I saved your " + this.$session.$data.tempFood)
+    var expirationDate = this.addDays(Date.now(), parseInt($this.$inputs.number.value))
+    this.$user.$data.food[this.$session.$data.tempFood]["ExpirationDate"] = expirationDate
+    this.ask("Awesome! How many servings of " + this.$session.$data.tempFood + " are there?")
+  },
+
+  ServingCountIntent() {
+    this.$user.$data.food[this.$session.$data.tempFood]["ServingCount"] = this.$data.$inputs.number.value
+    this.ask("All set. Feel free to save other food.")
   },
 
   setUserFoodDict() {
     if (this.$user.$data.food == null) {
       this.$user.$data.food = {}
     }
+  },
+
+  addDays(date, days) {
+    var result = new Date(date);
+    result.setDate(result.getDate() + days);
+    return result;
   }
 });
 

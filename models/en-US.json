@@ -2,23 +2,6 @@
   "invocation": "produce pal",
   "intents": [
     {
-      "name": "HelloWorldIntent",
-      "phrases": ["hello", "say hello", "say hello world"]
-    },
-    {
-      "name": "MyNameIsIntent",
-      "phrases": ["{name}", "my name is {name}", "i am {name}", "you can call me {name}"],
-      "inputs": [
-        {
-          "name": "name",
-          "type": {
-            "alexa": "AMAZON.US_FIRST_NAME",
-            "dialogflow": "@sys.given-name"
-          }
-        }
-      ]
-    },
-    {
       "name": "AddFoodIntent",
       "phrases": ["add {food} to my fridge", "add {food}", "put {food} away"],
       "inputs": [
@@ -33,6 +16,18 @@
     {
       "name": "SaveFoodIntent",
       "phrases": ["{number} days", "it will be good for {number} days"],
+      "inputs": [
+        {
+          "name": "number",
+          "type": {
+            "alexa": "AMAZON.NUMBER"
+          }
+        }
+      ]
+    },
+    {
+      "name": "ServingCountIntent",
+      "phrases": ["{number} servings"],
       "inputs": [
         {
           "name": "number",
