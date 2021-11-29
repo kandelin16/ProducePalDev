@@ -1,3 +1,7 @@
+## Produce Pal
+Produce Pal is a food inventory management system that interacts with users through a voice assistant (Amazon Echo/Google Assistant).
+
+
 ## About Jovo
 
 Jovo is the most popular development framework for voice, including platforms like Alexa, Google Assistant, mobile apps, and Raspberry Pi.
