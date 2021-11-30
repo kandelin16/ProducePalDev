@@ -83,13 +83,15 @@ app.setHandler({
 
   //FIX ME: Needs modeling
   RemoveFoodMethodIntent() {
-    var food = this.$session.date.tempFood
+    var food = this.$session.$data.tempFood
 
     //FIX ME: Maybe sanitize the method input for standard values? Or will the voice model do this?
-    var method = this.$inputs.method.value
-    var servings = this.$user.$data.Food[this.$session.$data.tempFood]["ServingCount"]
-    CreateDisposalLog(food, method, servings)
-    delete this.$user.$data.Food[this.$session.$data.tempFood]
+    var method = this.$inputs.DisposalMethod.value
+    var servings = this.$user.$data.food[this.$session.$data.tempFood]["ServingCount"]
+    this.CreateDisposalLog(food, method, servings)
+    delete this.$user.$data.food[this.$session.$data.tempFood]
+
+    this.ask("Removed. Other Food?")
   },
 
   CreateDisposalLog(food, method, servings) {

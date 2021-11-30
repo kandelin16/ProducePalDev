@@ -76,6 +76,29 @@
           }
         }
       ]
-    }    
+    },
+    {
+      "name": "RemoveFoodMethodIntent",
+      "phrases": ["{DisposalMethod}"],
+      "inputs": [
+        {
+          "name": "DisposalMethod"
+        }
+      ]
+    }  
+  ],
+  "inputTypes": [ {
+      "name": "DisposalMethod",
+      "values": [
+        {
+          "id": "Throw Away",
+          "value": "Throw Away"
+        },
+        {
+          "id": "Eaten",
+          "value": "Eaten"
+        }
+      ]
+  }
   ]
 }
