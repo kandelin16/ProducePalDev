@@ -79,26 +79,31 @@
     },
     {
       "name": "RemoveFoodMethodIntent",
-      "phrases": ["{DisposalMethod}"],
+      "phrases": ["It was {DisposalMethod}"],
       "inputs": [
         {
-          "name": "DisposalMethod"
+          "name": "DisposalMethod",
+          "type": {
+            "alexa": "DisposalMethod"
+          }
         }
       ]
     }  
   ],
-  "inputTypes": [ {
+  "inputTypes": [
+    {
       "name": "DisposalMethod",
       "values": [
         {
-          "id": "Throw Away",
-          "value": "Throw Away"
+          "value": "eaten"
         },
         {
-          "id": "Eaten",
-          "value": "Eaten"
+          "value": "Thrown Away",
+          "synonyms": [
+            "throw away"
+          ]
         }
       ]
-  }
+    }
   ]
 }
