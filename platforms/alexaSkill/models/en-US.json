@@ -106,7 +106,8 @@
 				{
 					"name": "RemoveFoodMethodIntent",
 					"samples": [
-						"It was {DisposalMethod}"
+						"It was {DisposalMethod}",
+						"{DisposalMethod}"
 					],
 					"slots": [
 						{
@@ -114,6 +115,18 @@
 							"type": "DisposalMethod"
 						}
 					]
+				},
+				{
+					"name": "AMAZON.CancelIntent",
+					"samples": []
+				},
+				{
+					"name": "AMAZON.HelpIntent",
+					"samples": []
+				},
+				{
+					"name": "AMAZON.StopIntent",
+					"samples": []
 				}
 			]
 		}

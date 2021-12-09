@@ -5,6 +5,7 @@
   "main": "src/index.js",
   "dependencies": {
     "@jovotech/db-dynamodb": "^4.0.0",
+    "jovo-db-dynamodb": "^3.6.0",
     "jovo-db-filedb": "^3.0.14",
     "jovo-framework": "^3.6.0",
     "jovo-platform-alexa": "^3.0.15",

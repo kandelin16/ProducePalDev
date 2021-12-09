@@ -4,6 +4,7 @@ const { Alexa } = require('jovo-platform-alexa');
 const { GoogleAssistant } = require('jovo-platform-googleassistant');
 const { JovoDebugger } = require('jovo-plugin-debugger');
 const { FileDb } = require('jovo-db-filedb');
+const { DynamoDb } = require('jovo-db-dynamodb');
 
 console.log('This template uses an outdated version of the Jovo Framework. We strongly recommend upgrading to Jovo v4. Learn more here: https://www.jovo.tech/docs/migration-from-v3');
 
@@ -17,7 +18,8 @@ app.use(
   new Alexa(),
   new GoogleAssistant(),
   new JovoDebugger(),
-  new FileDb()
+  new FileDb(),
+  new DynamoDb()
 );
 
 // ------------------------------------------------------------------
@@ -27,6 +29,10 @@ app.use(
 app.setHandler({
   LAUNCH() {
     this.setUserDict()
+    return this.toIntent('WelcomeIntent');
+  },
+
+  WelcomeIntent() {
     this.ask("Welcome to Produce Pal! Try adding something to your fridge!")
   },
 
@@ -99,6 +105,18 @@ app.setHandler({
     this.$user.$data.DisposalLog[Date.now()]["Food"] = food
     this.$user.$data.DisposalLog[Date.now()]["DisposalMethod"] = method
     this.$user.$data.DisposalLog[Date.now()]["ServingCount"] = servings
+  },
+
+  "AMAZON.StopIntent"() {
+    this.tell("Goodbye!")
+  },
+
+  "AMAZON.HelpIntent"() {
+    this.ask("I can do a lot of things. For example, you could tell me to add a food to your fridge, and I will keep track of it for you. Or you can ask what food you have in your fridge and I can tell you that list as well. What would you like to do?")
+  },
+
+  "AMAZON.CancelIntent"() {
+    this.tell("Goodbye!")
   },
 
   setUserDict() {

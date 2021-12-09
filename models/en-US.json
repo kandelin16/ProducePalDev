@@ -79,7 +79,7 @@
     },
     {
       "name": "RemoveFoodMethodIntent",
-      "phrases": ["It was {DisposalMethod}"],
+      "phrases": ["It was {DisposalMethod}", "{DisposalMethod}"],
       "inputs": [
         {
           "name": "DisposalMethod",
@@ -88,8 +88,28 @@
           }
         }
       ]
-    }  
+    }
   ],
+  "alexa": {
+    "interactionModel": {
+      "languageModel": {
+        "intents": [
+          {
+            "name": "AMAZON.CancelIntent",
+            "samples": []
+          },
+          {
+            "name": "AMAZON.HelpIntent",
+            "samples": []
+          },
+          {
+            "name": "AMAZON.StopIntent",
+            "samples": []
+          }
+        ]
+      }
+    }
+  },
   "inputTypes": [
     {
       "name": "DisposalMethod",
