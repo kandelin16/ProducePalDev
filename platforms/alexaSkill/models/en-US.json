@@ -1,0 +1,134 @@
+{
+	"interactionModel": {
+		"languageModel": {
+			"invocationName": "produce pal",
+			"types": [
+				{
+					"name": "DisposalMethod",
+					"values": [
+						{
+							"id": null,
+							"name": {
+								"value": "eaten"
+							}
+						},
+						{
+							"id": null,
+							"name": {
+								"value": "Thrown Away",
+								"synonyms": [
+									"throw away"
+								]
+							}
+						}
+					]
+				}
+			],
+			"intents": [
+				{
+					"name": "AddFoodIntent",
+					"samples": [
+						"add {food} to my fridge",
+						"add {food}",
+						"put {food} away"
+					],
+					"slots": [
+						{
+							"name": "food",
+							"type": "AMAZON.Food"
+						}
+					]
+				},
+				{
+					"name": "DurationIntent",
+					"samples": [
+						"{days} days",
+						"it will be good for {days} days"
+					],
+					"slots": [
+						{
+							"name": "days",
+							"type": "AMAZON.NUMBER"
+						}
+					]
+				},
+				{
+					"name": "ServingCountIntent",
+					"samples": [
+						"{servings} servings"
+					],
+					"slots": [
+						{
+							"name": "servings",
+							"type": "AMAZON.NUMBER"
+						}
+					]
+				},
+				{
+					"name": "ListFoodIntent",
+					"samples": [
+						"What is in my fridge?",
+						"What food do I have?"
+					]
+				},
+				{
+					"name": "QuickAddIntent",
+					"samples": [
+						"add {servings} servings of {food} good for {days} days"
+					],
+					"slots": [
+						{
+							"name": "servings",
+							"type": "AMAZON.NUMBER"
+						},
+						{
+							"name": "food",
+							"type": "AMAZON.Food"
+						},
+						{
+							"name": "days",
+							"type": "AMAZON.NUMBER"
+						}
+					]
+				},
+				{
+					"name": "RemoveFoodIntent",
+					"samples": [
+						"remove {food} from my fridge"
+					],
+					"slots": [
+						{
+							"name": "food",
+							"type": "AMAZON.Food"
+						}
+					]
+				},
+				{
+					"name": "RemoveFoodMethodIntent",
+					"samples": [
+						"It was {DisposalMethod}",
+						"{DisposalMethod}"
+					],
+					"slots": [
+						{
+							"name": "DisposalMethod",
+							"type": "DisposalMethod"
+						}
+					]
+				},
+				{
+					"name": "AMAZON.CancelIntent",
+					"samples": []
+				},
+				{
+					"name": "AMAZON.HelpIntent",
+					"samples": []
+				},
+				{
+					"name": "AMAZON.StopIntent",
+					"samples": []
+				}
+			]
+		}
+	}
+}

@@ -78,8 +78,56 @@
       ]
     },
     {
+      "name": "RemoveFoodMethodIntent",
+      "phrases": ["It was {DisposalMethod}", "{DisposalMethod}"],
+      "inputs": [
+        {
+          "name": "DisposalMethod",
+          "type": {
+            "alexa": "DisposalMethod"
+          }
+        }
+      ]
+    },
+    {
       "name": "noIntent",
       "phrases": ["no", "no thanks"]
+    }
+  ],
+  "alexa": {
+    "interactionModel": {
+      "languageModel": {
+        "intents": [
+          {
+            "name": "AMAZON.CancelIntent",
+            "samples": []
+          },
+          {
+            "name": "AMAZON.HelpIntent",
+            "samples": []
+          },
+          {
+            "name": "AMAZON.StopIntent",
+            "samples": []
+          }
+        ]
+      }
+    }
+  },
+  "inputTypes": [
+    {
+      "name": "DisposalMethod",
+      "values": [
+        {
+          "value": "eaten"
+        },
+        {
+          "value": "Thrown Away",
+          "synonyms": [
+            "throw away"
+          ]
+        }
+      ]
     }
   ]
 }
