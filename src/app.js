@@ -44,7 +44,7 @@ app.setHandler({
 
   ServingCountIntent() {
     this.$user.$data.food[this.$session.$data.tempFood]["ServingCount"] = this.$inputs.servings.value
-    this.ask("All set. Feel free to save other food.")
+    this.ask("All set. Do you want to save other food?")
   },
 
   ListFoodIntent() {
@@ -112,6 +112,10 @@ app.setHandler({
     var result = new Date(date);
     result.setDate(result.getDate() + days);
     return result;
+  },
+
+  noIntent() {
+    this.tell("")
   }
 });
 

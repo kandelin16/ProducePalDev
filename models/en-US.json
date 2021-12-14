@@ -76,6 +76,10 @@
           }
         }
       ]
-    }    
+    },
+    {
+      "name": "noIntent",
+      "phrases": ["no", "no thanks"]
+    }
   ]
 }
