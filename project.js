@@ -3,7 +3,7 @@
 // ------------------------------------------------------------------
 
 module.exports = {
-  defaultStage: 'prod',
+  defaultStage: 'dev',
   stages: {
     dev: {
       alexaSkill: {

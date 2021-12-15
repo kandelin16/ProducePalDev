@@ -3,15 +3,15 @@
 // ------------------------------------------------------------------
 
 module.exports = {
-    logging: true,
-  
-    intentMap: {
-      'AMAZON.StopIntent': 'END',
-    },
-  
-    db: {
-        DynamoDb: {
-            tableName: 'producePal1',
-        }
+  logging: true,
+
+  intentMap: {
+    'AMAZON.StopIntent': 'END',
+  },
+
+  db: {
+    DynamoDb: {
+        tableName: 'producePal1',
     }
-  };
+  }
+};

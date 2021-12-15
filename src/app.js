@@ -4,7 +4,7 @@ const { Alexa } = require('jovo-platform-alexa');
 const { GoogleAssistant } = require('jovo-platform-googleassistant');
 const { JovoDebugger } = require('jovo-plugin-debugger');
 const { FileDb } = require('jovo-db-filedb');
-const { DynamoDb } = require('jovo-db-dynamodb');
+//const { DynamoDb } = require('jovo-db-dynamodb');
 
 console.log('This template uses an outdated version of the Jovo Framework. We strongly recommend upgrading to Jovo v4. Learn more here: https://www.jovo.tech/docs/migration-from-v3');
 
@@ -19,7 +19,7 @@ app.use(
   new GoogleAssistant(),
   new JovoDebugger(),
   new FileDb(),
-  new DynamoDb()
+  //new DynamoDb()
 );
 
 // ------------------------------------------------------------------
@@ -44,12 +44,15 @@ app.setHandler({
 
   DurationIntent() {
     var expirationDate = this.addDays(Date.now(), parseInt(this.$inputs.days.value))
+    var addedDate = Date.now()
+    this.$user.$data.food[this.$session.$data.tempFood]["AddedDate"] = addedDate
     this.$user.$data.food[this.$session.$data.tempFood]["ExpirationDate"] = expirationDate
     this.ask("Awesome! How many servings of " + this.$session.$data.tempFood + " are there?")
   },
 
   ServingCountIntent() {
     this.$user.$data.food[this.$session.$data.tempFood]["ServingCount"] = this.$inputs.servings.value
+    this.$session.$data.tempFood = ""
     this.ask("All set. Do you want to save other food?")
   },
 
@@ -75,10 +78,12 @@ app.setHandler({
     var servings = this.$inputs.servings.value
     var days = this.$inputs.days.value
     var expirationDate = this.addDays(Date.now(), parseInt(days))
+    var addedDate = Date.now()
     
     this.$user.$data.food[food] = {}
     this.$user.$data.food[food]["ExpirationDate"] = expirationDate
     this.$user.$data.food[food]["ServingCount"] = servings
+    this.$user.$data.food[food]["AddedDate"] = addedDate
     this.ask("Added. Other food?")
   },
 
@@ -135,7 +140,38 @@ app.setHandler({
   },
 
   noIntent() {
-    this.tell("")
+  },
+
+  HowOldIsIntent() {
+    var dt = Date.now()
+    var dateAdded = this.$user.$data.food[this.$inputs.food.value]["AddedDate"]
+    var timeDiff = dt - dateAdded;
+    var dateDiff = timeDiff / (1000 * 60 * 60 * 24)
+    if (dateDiff < 1) {
+      this.ask("You added your " + this.$inputs.food.value + " today. Would you like to do something else?")
+    }
+    else {
+      this.ask("Your " + this.$inputs.food.value + " is " + Math.round(dateDiff) + " days old. Would you like to do something else?")
+    }
+  },
+  
+  WhenExpireIntent() {
+    var dt = new Date(Date.now())
+    var expirationDate = new Date(this.$user.$data.food[this.$inputs.food.value]["ExpirationDate"])
+    console.log(dt)
+    console.log(expirationDate)
+
+    var timeDiff = expirationDate - dt;
+    console.log(timeDiff)
+    var dateDiff = timeDiff / (1000 * 60 * 60 * 24)
+    console.log(dateDiff)
+
+    if (dateDiff < 1) {
+      this.ask("Your " + this.$inputs.food.value + " expires today. Would you like to do something else?")
+    }
+    else {
+      this.ask("Your " + this.$inputs.food.value + " expires in " + Math.round(dateDiff) + " days. Would you like to do something else?")
+    }
   }
 });
 

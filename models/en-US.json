@@ -78,6 +78,30 @@
       ]
     },
     {
+      "name": "HowOldIsIntent",
+      "phrases": ["how old is my {food}"],
+      "inputs": [
+        {
+          "name": "food",
+          "type": {
+            "alexa": "AMAZON.Food"
+          }
+        }
+      ]
+    },
+    {
+      "name": "WhenExpireIntent",
+      "phrases": ["when will my {food} go bad"],
+      "inputs": [
+        {
+          "name": "food",
+          "type": {
+            "alexa": "AMAZON.Food"
+          }
+        }
+      ]
+    },
+    {
       "name": "RemoveFoodMethodIntent",
       "phrases": ["It was {DisposalMethod}", "{DisposalMethod}"],
       "inputs": [
