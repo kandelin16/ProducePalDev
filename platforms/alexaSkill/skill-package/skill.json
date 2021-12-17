@@ -26,7 +26,7 @@
 			"custom": {
 				"endpoint": {
 					"sslCertificateType": "Wildcard",
-					"uri": "arn:aws:lambda:us-east-1:897369887681:function:producePal1"
+					"uri": "https://webhookv3.jovo.cloud/9bebf110-9944-4387-9a26-e4ae5144adb8"
 				}
 			}
 		},
