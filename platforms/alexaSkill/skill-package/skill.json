@@ -26,7 +26,11 @@
 			"custom": {
 				"endpoint": {
 					"sslCertificateType": "Wildcard",
+<<<<<<< HEAD:platforms/alexaSkill/skill.json
 					"uri": "https://webhookv3.jovo.cloud/96b074da-77f5-4491-9181-057a7ce319ad"
+=======
+					"uri": "https://webhookv3.jovo.cloud/9bebf110-9944-4387-9a26-e4ae5144adb8"
+>>>>>>> fd564915dadc8c0664b28b9f92c96aefd55de8d2:platforms/alexaSkill/skill-package/skill.json
 				}
 			}
 		},

@@ -26,31 +26,13 @@
       ]
     },
     {
-      "name": "ServingCountIntent",
-      "phrases": ["{servings} servings"],
-      "inputs": [
-        {
-          "name": "servings",
-          "type": {
-            "alexa": "AMAZON.NUMBER"
-          }
-        }
-      ]
-    },
-    {
       "name": "ListFoodIntent",
-      "phrases": ["What is in my fridge?", "What food do I have?"]
+      "phrases": ["What is in my fridge", "What food do I have"]
     },
     {
       "name": "QuickAddIntent",
-      "phrases": ["add {servings} servings of {food} good for {days} days"],
+      "phrases": ["add {food} good for {days} days"],
       "inputs": [
-        {
-          "name": "servings",
-          "type": {
-            "alexa": "AMAZON.NUMBER"
-          }
-        },
         {
           "name": "food",
           "type": {

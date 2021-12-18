@@ -1,12 +1,15 @@
 'use strict';
-const { App } = require('jovo-framework');
+const { App, HttpService } = require('jovo-framework');
 const { Alexa } = require('jovo-platform-alexa');
 const { GoogleAssistant } = require('jovo-platform-googleassistant');
 const { JovoDebugger } = require('jovo-plugin-debugger');
 const { FileDb } = require('jovo-db-filedb');
 const { DynamoDb } = require('jovo-db-dynamodb');
+<<<<<<< HEAD
 
 console.log('This template uses an outdated version of the Jovo Framework. We strongly recommend upgrading to Jovo v4. Learn more here: https://www.jovo.tech/docs/migration-from-v3');
+=======
+>>>>>>> fd564915dadc8c0664b28b9f92c96aefd55de8d2
 
 // ------------------------------------------------------------------
 // APP INITIALIZATION
@@ -27,89 +30,112 @@ app.use(
 // ------------------------------------------------------------------
 
 app.setHandler({
-  LAUNCH() {
-    this.setUserDict()
-    return this.toIntent('WelcomeIntent');
+  async LAUNCH() {
+    if (!this.$request.getAccessToken()) {
+      this.$alexaSkill.showAccountLinkingCard();
+      return this.toIntent('WelcomeIntentWithLink');
+    } else {
+      const url = `https://api.amazon.com/user/profile?access_token=${this.$request.getAccessToken()}`;
+
+      const { data } = await HttpService.get(url);
+      this.setUserDict()
+      this.$user.$data.email = data.email
+      this.$user.$data.name = data.name
+      this.$user.$data.zip = data.postal_code
+      return this.toIntent('WelcomeIntent');
+    }
   },
 
+  //Called upon initialization
+  WelcomeIntentWithLink() {
+    this.ask("Welcome to Produce Pal! To improve your experience, please link your amazon account! Try adding something to your fridge!")
+  },
+
+  //Called upon initialization
   WelcomeIntent() {
     this.ask("Welcome to Produce Pal! Try adding something to your fridge!")
   },
 
+  //Adding Food - 1
   AddFoodIntent() {
     this.$session.$data.tempFood = this.$inputs.food.value
     this.$user.$data.food[this.$session.$data.tempFood] = {}
     this.ask("Ok, how long will your " + this.$inputs.food.value + " last?")
   },
 
+  //Adding Food - 2
   DurationIntent() {
     var expirationDate = this.addDays(Date.now(), parseInt(this.$inputs.days.value))
     var addedDate = Date.now()
     this.$user.$data.food[this.$session.$data.tempFood]["AddedDate"] = addedDate
     this.$user.$data.food[this.$session.$data.tempFood]["ExpirationDate"] = expirationDate
-    this.ask("Awesome! How many servings of " + this.$session.$data.tempFood + " are there?")
-  },
-
-  ServingCountIntent() {
-    this.$user.$data.food[this.$session.$data.tempFood]["ServingCount"] = this.$inputs.servings.value
-    this.$session.$data.tempFood = ""
     this.ask("All set. Do you want to save other food?")
   },
 
+  //Returns a list of your food items.
   ListFoodIntent() {
     var foodItems = this.$user.$data.food
     var foodNames = ""
     var lengthOfDict = Object.keys(foodItems).length
     var index = 1
     for (const [food, detailsDict] of Object.entries(foodItems)) {
-      if (index == lengthOfDict) {
-        foodNames = foodNames + " and " + food + "."
+      if (lengthOfDict == 1) {
+        foodNames = foodNames + food + "."
       }
       else {
-        foodNames = foodNames + food + ", "
+        if (index == lengthOfDict) {
+          foodNames = foodNames + " and " + food + "."
+        }
+        else {
+          foodNames = foodNames + food + ", "
+        }
       }
       index ++
     }
     this.ask("In your fridge you have: " + foodNames)
   },
 
+  //Adds food in one intent
   QuickAddIntent() {
     var food = this.$inputs.food.value
-    var servings = this.$inputs.servings.value
     var days = this.$inputs.days.value
     var expirationDate = this.addDays(Date.now(), parseInt(days))
     var addedDate = Date.now()
     
     this.$user.$data.food[food] = {}
     this.$user.$data.food[food]["ExpirationDate"] = expirationDate
-    this.$user.$data.food[food]["ServingCount"] = servings
     this.$user.$data.food[food]["AddedDate"] = addedDate
     this.ask("Added. Other food?")
   },
 
+  //Remove Food - 1
   RemoveFoodIntent() {
     this.$session.$data.tempFood = this.$inputs.food.value
-    this.ask("Was the " + this.$inputs.food.value + " eaten or thrown away?")
+    if (this.$inputs.food.value in this.$user.$data.food) {
+      this.ask("Was the " + this.$inputs.food.value + " eaten or thrown away?")
+    }
+    else {
+      this.ask("Sorry, I couldn't find that food item. Try saying it again.")
+    }
   },
 
-  //FIX ME: Needs modeling
+  //Remove Food - 2
   RemoveFoodMethodIntent() {
     var food = this.$session.$data.tempFood
 
     //FIX ME: Maybe sanitize the method input for standard values? Or will the voice model do this?
     var method = this.$inputs.DisposalMethod.value
-    var servings = this.$user.$data.food[this.$session.$data.tempFood]["ServingCount"]
-    this.CreateDisposalLog(food, method, servings)
+    this.CreateDisposalLog(food, method)
     delete this.$user.$data.food[this.$session.$data.tempFood]
 
     this.ask("Removed. Other Food?")
   },
 
-  CreateDisposalLog(food, method, servings) {
+  //This function is called by the RemoveFoodMethodIntent. It creates a disposal log containing some information about the food.
+  CreateDisposalLog(food, method) {
     this.$user.$data.DisposalLog[Date.now()] = {}
     this.$user.$data.DisposalLog[Date.now()]["Food"] = food
     this.$user.$data.DisposalLog[Date.now()]["DisposalMethod"] = method
-    this.$user.$data.DisposalLog[Date.now()]["ServingCount"] = servings
   },
 
   "AMAZON.StopIntent"() {
