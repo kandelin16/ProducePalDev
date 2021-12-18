@@ -4,7 +4,7 @@ const { Alexa } = require('jovo-platform-alexa');
 const { GoogleAssistant } = require('jovo-platform-googleassistant');
 const { JovoDebugger } = require('jovo-plugin-debugger');
 const { FileDb } = require('jovo-db-filedb');
-//const { DynamoDb } = require('jovo-db-dynamodb');
+const { DynamoDb } = require('jovo-db-dynamodb');
 
 console.log('This template uses an outdated version of the Jovo Framework. We strongly recommend upgrading to Jovo v4. Learn more here: https://www.jovo.tech/docs/migration-from-v3');
 
@@ -19,7 +19,7 @@ app.use(
   new GoogleAssistant(),
   new JovoDebugger(),
   new FileDb(),
-  //new DynamoDb()
+  new DynamoDb()
 );
 
 // ------------------------------------------------------------------

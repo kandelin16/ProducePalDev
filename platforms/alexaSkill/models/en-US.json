@@ -104,6 +104,30 @@
 					]
 				},
 				{
+					"name": "HowOldIsIntent",
+					"samples": [
+						"how old is my {food}"
+					],
+					"slots": [
+						{
+							"name": "food",
+							"type": "AMAZON.Food"
+						}
+					]
+				},
+				{
+					"name": "WhenExpireIntent",
+					"samples": [
+						"when will my {food} go bad"
+					],
+					"slots": [
+						{
+							"name": "food",
+							"type": "AMAZON.Food"
+						}
+					]
+				},
+				{
 					"name": "RemoveFoodMethodIntent",
 					"samples": [
 						"It was {DisposalMethod}",
@@ -114,6 +138,13 @@
 							"name": "DisposalMethod",
 							"type": "DisposalMethod"
 						}
+					]
+				},
+				{
+					"name": "noIntent",
+					"samples": [
+						"no",
+						"no thanks"
 					]
 				},
 				{
