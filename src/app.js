@@ -5,11 +5,6 @@ const { GoogleAssistant } = require('jovo-platform-googleassistant');
 const { JovoDebugger } = require('jovo-plugin-debugger');
 const { FileDb } = require('jovo-db-filedb');
 const { DynamoDb } = require('jovo-db-dynamodb');
-<<<<<<< HEAD
-
-console.log('This template uses an outdated version of the Jovo Framework. We strongly recommend upgrading to Jovo v4. Learn more here: https://www.jovo.tech/docs/migration-from-v3');
-=======
->>>>>>> fd564915dadc8c0664b28b9f92c96aefd55de8d2
 
 // ------------------------------------------------------------------
 // APP INITIALIZATION
@@ -33,6 +28,7 @@ app.setHandler({
   async LAUNCH() {
     if (!this.$request.getAccessToken()) {
       this.$alexaSkill.showAccountLinkingCard();
+      this.setUserDict()
       return this.toIntent('WelcomeIntentWithLink');
     } else {
       const url = `https://api.amazon.com/user/profile?access_token=${this.$request.getAccessToken()}`;
@@ -82,6 +78,9 @@ app.setHandler({
       if (lengthOfDict == 1) {
         foodNames = foodNames + food + "."
       }
+      else if (lengthOfDict == 0) {
+        this.ask("You have no food saved. Would you like to do something else?")
+      }
       else {
         if (index == lengthOfDict) {
           foodNames = foodNames + " and " + food + "."
@@ -122,13 +121,17 @@ app.setHandler({
   //Remove Food - 2
   RemoveFoodMethodIntent() {
     var food = this.$session.$data.tempFood
+    if (food != null) {
+      //FIX ME: Maybe sanitize the method input for standard values? Or will the voice model do this?
+      var method = this.$inputs.DisposalMethod.value
+      this.CreateDisposalLog(food, method)
+      delete this.$user.$data.food[this.$session.$data.tempFood]
 
-    //FIX ME: Maybe sanitize the method input for standard values? Or will the voice model do this?
-    var method = this.$inputs.DisposalMethod.value
-    this.CreateDisposalLog(food, method)
-    delete this.$user.$data.food[this.$session.$data.tempFood]
-
-    this.ask("Removed. Other Food?")
+      this.ask("Removed. Other Food?")
+    }
+    else {
+      this.ask("I'm sorry, I didn't quite get that. What did you say?")
+    }
   },
 
   //This function is called by the RemoveFoodMethodIntent. It creates a disposal log containing some information about the food.
@@ -138,18 +141,7 @@ app.setHandler({
     this.$user.$data.DisposalLog[Date.now()]["DisposalMethod"] = method
   },
 
-  "AMAZON.StopIntent"() {
-    this.tell("Goodbye!")
-  },
-
-  "AMAZON.HelpIntent"() {
-    this.ask("I can do a lot of things. For example, you could tell me to add a food to your fridge, and I will keep track of it for you. Or you can ask what food you have in your fridge and I can tell you that list as well. What would you like to do?")
-  },
-
-  "AMAZON.CancelIntent"() {
-    this.tell("Goodbye!")
-  },
-
+  //Called on launch. Creates the "food" and "DisposalLog" dictionary objects
   setUserDict() {
     if (this.$user.$data.food == null) {
       this.$user.$data.food = {}
@@ -159,15 +151,18 @@ app.setHandler({
     }
   },
 
+  //This function is used to add days together
   addDays(date, days) {
     var result = new Date(date);
     result.setDate(result.getDate() + days);
     return result;
   },
 
+  //Since most of the "this.ask"s go to yes/no questions, this serves to end the session when they say no.
   noIntent() {
   },
 
+  //Returns the age of food in days
   HowOldIsIntent() {
     var dt = Date.now()
     var dateAdded = this.$user.$data.food[this.$inputs.food.value]["AddedDate"]
@@ -181,6 +176,7 @@ app.setHandler({
     }
   },
   
+  //Returns the expiration date in days from today.
   WhenExpireIntent() {
     var dt = new Date(Date.now())
     var expirationDate = new Date(this.$user.$data.food[this.$inputs.food.value]["ExpirationDate"])
@@ -198,6 +194,19 @@ app.setHandler({
     else {
       this.ask("Your " + this.$inputs.food.value + " expires in " + Math.round(dateDiff) + " days. Would you like to do something else?")
     }
+  },
+
+  //Default amazon intents
+  "AMAZON.StopIntent"() {
+    this.tell("Goodbye!")
+  },
+
+  "AMAZON.HelpIntent"() {
+    this.ask("I can do a lot of things. For example, you could tell me to add a food to your fridge, and I will keep track of it for you. Or you can ask what food you have in your fridge and I can tell you that list as well. What would you like to do?")
+  },
+
+  "AMAZON.CancelIntent"() {
+    this.tell("Goodbye!")
   }
 });
 
